@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Pearly 💕</title>
+    <!-- Google Fonts for Aesthetic Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-purple: #f3e8ff;
+            --card-purple: #ffffff;
+            --primary-purple: #9b5de5;
+            --secondary-purple: #b5838d;
+            --text-color: #4a3b5c;
+            --accent-purple: #6a0dad;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-purple);
+            color: var(--text-color);
+            font-family: 'Quicksand', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Blurred Cat Background */
+        .bg-cat {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('cat-bg.jpg'); /* Replace with your cat background image filename */
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            transform: scale(1.05);
+            z-index: -2;
+        }
+
+        /* Overlay to keep it readable and soft purple-white themed */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(243, 232, 255, 0.75);
+            z-index: -1;
+        }
+
+        /* Envelope Screen */
+        #envelope-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 10;
+        }
+
+        #envelope-container:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(106, 13, 173, 0.15);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e2d1f9;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #f0e6ff;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+        }
+
+        .heart-seal {
+            background: linear-gradient(135deg, #b19cd9, #9b5de5);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(155, 93, 229, 0.3);
+            z-index: 5;
+            position: relative;
+        }
+
+        .envelope-text {
+            margin-top: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--accent-purple);
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Letter / Main Content Screen (Hidden initially) */
+        #letter-container {
+            display: none;
+            width: 90%;
+            max-width: 650px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(106, 13, 173, 0.15);
+            text-align: center;
+            border: 2px solid #e0c3fc;
+            z-index: 10;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: popUpLetter 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popUpLetter {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--accent-purple);
+            margin-bottom: 20px;
+        }
+
+        .love-paragraph {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #554263;
+            text-align: left;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+
+        /* Balloon Photos Container */
+        .balloon-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .floating-balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 90px;
+            height: 110px;
+            background: white;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 10px 20px rgba(106, 13, 173, 0.2);
+            border: 3px solid white;
+            overflow: hidden;
+            animation: floatBalloon 7s linear infinite;
+        }
+
+        .floating-balloon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Balloon string */
+        .floating-balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 2px;
+            height: 20px;
+            background: #b19cd9;
+        }
+
+        @keyframes floatBalloon {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh) translateX(50px) rotate(10deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Blurred Cat Background -->
+    <div class="bg-cat"></div>
+    <div class="overlay"></div>
+
+    <!-- Background Audio Element -->
+    <!-- Replace 'music.mp3' with your background music file path -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Step 1: Cute Envelope -->
+    <div id="envelope-container" onclick="openLetter()">
+        <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="heart-seal">💜</div>
+        </div>
+        <div class="envelope-text">Open It Pearly</div>
+    </div>
+
+    <!-- Step 2: Huge Letter Content (Revealed on click) -->
+    <div id="letter-container">
+        <h1>Happy Girlfriend's Day, Pearly ✨</h1>
+        <div class="love-paragraph">
+            My dearest Pearly,
+
+           i love you so much. you make my days better my life better my heart happy. YOU ARE the person no one would ever wanna lose ever in their life, you are someone who ppl look forward to meeting in their life.
+YOU are the epitome of beauty my pearly. You are the best. You are the prettiest person ever and the greatest one too. You are Like THE HALLEYS'S COMET ppl like you come once in sometimes and i am veryyyyy lucky to have met you. I will forever be grateful for this relationship and i'll always love. NOthing can change the way i look at my pearly how I think abt my pearly, BECAUSE I KNOW MY PEARLY BETTER THAN ANYONE ELSE. love you pearlyyy so much. HAPPY GIRLFRIEND'S DAY 💜
+        </div>
+    </div>
+
+    <!-- Balloon Floating Photos Container -->
+    <div class="balloon-container" id="balloonContainer"></div>
+
+    <script>
+        // List of your photos for the balloon effect
+        // Replace these with your actual photo filenames (e.g., 'photo1.jpg', 'photo2.jpg', etc.)
+        const photoList = [
+            'photo1.jpg',
+            'photo2.jpg',
+            'photo3.jpg',
+            'photo4.jpg',
+            'photo5.jpg',
+            'photo6.jpg',
+            'photo7.jpg',
+            'photo8.jpg',
+            'photo9.jpg',
+            'photo10.jpg',
+        ];
+
+        function openLetter() {
+            // Play background music
+            const music = document.getElementById('bgMusic');
+            music.play().catch(error => {
+                console.log("Audio autoplay was prevented by the browser:", error);
+            });
+
+            // Hide envelope and show letter
+            document.getElementById('envelope-container').style.display = 'none';
+            document.getElementById('letter-container').style.display = 'block';
+
+            // Start launching photo balloons
+            startBalloons();
+        }
+
+        function startBalloons() {
+            setInterval(() => {
+                const container = document.getElementById('balloonContainer');
+                const balloon = document.createElement('div');
+                balloon.classList.add('floating-balloon');
+
+                // Random horizontal positioning
+                balloon.style.left = Math.random() * 85 + 5 + 'vw';
+                
+                // Random animation duration for natural floating effect
+                const duration = Math.random() * 3 + 5; // 5 to 8 seconds
+                balloon.style.animationDuration = duration + 's';
+
+                // Pick a random photo from the list
+                const img = document.createElement('img');
+                const randomPhoto = photoList[Math.floor(Math.random() * photoList.length)];
+                img.src = randomPhoto;
+                
+                // Fallback if image fails to load
+                img.onerror = function() {
+                    this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="100%" height="100%" fill="%23e0c3fc"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%236a0dad" font-size="12">Pearly</text></svg>';
+                };
+
+                balloon.appendChild(img);
+                container.appendChild(balloon);
+
+                // Remove balloon after animation completes
+                setTimeout(() => {
+                    balloon.remove();
+                }, duration * 1000);
+            }, 1200); // Create a new balloon every 1.2 seconds
+        }
+    </script>
+</body>
+</html>
